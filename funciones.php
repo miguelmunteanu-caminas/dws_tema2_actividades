@@ -1,21 +1,21 @@
 <?php
 
     $tabla = "alumnos";
+
     $campos = array("nombre" => "Juan", "apellidos" => "Martínez");
 
     function insert($tabla, $campos) {
-        INSERT INTO alumnos (nombre, apellidos) values (:nombre, :apellidos);
+        $claves = array_keys($campos);
+
+        $stringClaves = implode(',',$claves);
+        $stringValores = implode(', :',$claves);
+        $sql = "insert into %s (%s) values (:%s);";
+
+        $resultado = sprintf($sql, $tabla, $stringClaves, $stringValores);
+
+        return $resultado;
     }
 
-    function insertReferencia($tabla, $campos) {
-        INSERT INTO alumnos (nombre, apellidos) values (:nombre, :apellidos);
-    }
-
-    $tabla = "alumnos";
-    $campos = array("id" => "1", "nombre" => "Juan", "apellidos" => "Martínez");
-
-    function update($tabla, $campos) {
-        UPDATE alumnos SET nombre=:nombre, apellidos=:apellidos WHERE id = :id
-    }
+    echo insert($tabla,$campos);
 
 ?>
